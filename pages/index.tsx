@@ -1,4 +1,4 @@
-import type { GetServerSidePropsContext, NextPage } from "next";
+import type { GetServerSidePropsContext, GetStaticPropsContext, NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import axios from "axios";
@@ -28,7 +28,7 @@ const Home: NextPage<Props> = ({
   const remainingWeeks = remainingOrders / ORDERS_PER_WEEK;
 
   return (
-    <div className={"h-screen bg-green-dark text-beige-light flex flex-col items-center"}>
+    <div className={"min-h-screen bg-green-dark text-beige-light flex flex-col items-center"}>
       <Head>
         <title>Deck | tgfnds</title>
         <meta name="description" content="Tracking my steamdeck order progress." />
@@ -112,7 +112,7 @@ const Home: NextPage<Props> = ({
   );
 };
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
+export async function getStaticProps(_context: GetStaticPropsContext) {
   const { data } = await axios.get<GetMyDeckData>(
     "https://getmydeck.ingenhaag.dev/api/v2/regions/EU/versions/256/infos/1628361316",
   );
@@ -138,6 +138,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       averageElapsedPercentage,
       lastDataUpdate: data.officialInfo.lastDataUpdate,
     } as Props,
+    revalidate: 1800,
   };
 }
 
