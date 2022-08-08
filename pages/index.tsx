@@ -138,7 +138,7 @@ export async function getStaticProps(_context: GetStaticPropsContext) {
       averageElapsedPercentage,
       lastDataUpdate: data.officialInfo.lastDataUpdate,
     } as Props,
-    revalidate: 1800,
+    revalidate: 300,
   };
 }
 
